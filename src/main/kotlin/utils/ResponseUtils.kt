@@ -13,7 +13,9 @@ class ResponseUtils {
                 )
 
             return byteArrayOf(
-                data.size.toByte()
+                if (data.size > 127)
+                    127.toByte()
+                else data.size.toByte()
             ) + data
         }
 

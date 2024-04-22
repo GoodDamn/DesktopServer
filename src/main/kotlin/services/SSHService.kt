@@ -13,6 +13,8 @@ class SSHService {
         ShareMethodMakeDir()
     )
 
+    private val mRuntimeService = RuntimeService()
+
     companion object {
         private const val TAG = "SSHService"
     }
@@ -27,24 +29,30 @@ class SSHService {
         val argsCount = request[offset]
             .toInt()
 
-        val cmdLine = ArrayList<String>(argsCount)
+        val cmdLine = Array(argsCount) { "" }
         offset++
         for (i in 0 until argsCount) {
             val len = request[offset]
                 .toInt()
             offset++
-            cmdLine.add(String(
+            cmdLine[i] = String(
                 request,
                 offset,
                 len,
                 Application.CHARSET_ASCII
-            ))
+            )
             offset += len
             Log.d(TAG,"CMD_PART: ${cmdLine[i]}")
         }
 
         return ResponseUtils.responseMessage(
-            "Process started!"
+            try {
+                mRuntimeService.start(
+                    cmdLine
+                )
+            } catch (e: Exception) {
+                "No such command"
+            }
         )
     }
 }
