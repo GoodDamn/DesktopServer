@@ -45,7 +45,7 @@ class SSHService {
             Log.d(TAG,"CMD_PART: ${cmdLine[i]}")
         }
 
-        return ResponseUtils.responseMessage(
+        return ResponseUtils.responseMessage16Id(
             try {
                 mRuntimeService.start(
                     cmdLine

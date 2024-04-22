@@ -22,7 +22,7 @@ class ShareMethodMakeDir
         userFolder: File
     ): ByteArray {
         if (argsCount <= 0) {
-            return ResponseUtils.responseMessage(
+            return ResponseUtils.responseMessageId(
                 "No folder name for creating directory"
             )
         }
@@ -40,17 +40,17 @@ class ShareMethodMakeDir
         val path = File("$userFolder/$folderPath")
 
         if (path.exists()) {
-            return ResponseUtils.responseMessage(
+            return ResponseUtils.responseMessageId(
                 "$folderPath already exists"
             )
         }
 
         if (path.mkdirs()) {
-            return ResponseUtils.responseMessage(
+            return ResponseUtils.responseMessageId(
                 "Folder at $folderPath created")
         }
 
-        return ResponseUtils.responseMessage(
+        return ResponseUtils.responseMessageId(
             "Couldn't create a dir $folderPath"
         )
 
