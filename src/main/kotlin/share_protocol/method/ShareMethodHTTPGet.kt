@@ -1,7 +1,7 @@
 package good.damn.filesharing.share_protocol.method
 
 import good.damn.filesharing.Application
-import good.damn.filesharing.services.network.request.HTTPResponseService
+import good.damn.filesharing.services.HTTPResponseService
 import java.io.File
 
 class ShareMethodHTTPGet

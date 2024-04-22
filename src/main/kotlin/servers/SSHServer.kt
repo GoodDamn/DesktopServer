@@ -1,7 +1,7 @@
 package good.damn.filesharing.servers
 
 import good.damn.filesharing.listeners.network.server.SSHServerListener
-import good.damn.filesharing.services.network.request.SSHService
+import good.damn.filesharing.services.SSHService
 import good.damn.filesharing.share_protocol.ssh.SSHAuth
 import good.damn.filesharing.utils.FileUtils
 import good.damn.filesharing.utils.Log

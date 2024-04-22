@@ -1,9 +1,7 @@
-package good.damn.filesharing.services.network.request
+package good.damn.filesharing.services
 
 import good.damn.filesharing.Application
 import good.damn.filesharing.share_protocol.interfaces.Responsible
-import good.damn.filesharing.utils.FileUtils
-import good.damn.filesharing.share_protocol.method.ShareMethod
 import good.damn.filesharing.share_protocol.method.ssh.ShareMethodMakeDir
 import good.damn.filesharing.share_protocol.ssh.SSHAuth
 import good.damn.filesharing.utils.Log

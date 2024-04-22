@@ -2,7 +2,7 @@ package good.damn.filesharing.servers
 
 import good.damn.filesharing.Application
 import good.damn.filesharing.listeners.network.server.ServerListener
-import good.damn.filesharing.services.network.request.ResponseService
+import good.damn.filesharing.services.ResponseService
 import good.damn.filesharing.utils.Log
 import java.io.ByteArrayOutputStream
 import java.net.ServerSocket

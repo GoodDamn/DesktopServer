@@ -1,4 +1,4 @@
-package good.damn.filesharing.services.network.request
+package good.damn.filesharing.services
 
 import good.damn.filesharing.Application
 import good.damn.filesharing.utils.FileUtils
