@@ -94,7 +94,7 @@ class FileUtils {
         }
 
         fun getDocumentsFolder(): File {
-            val dir = File("/home/gooddamn/Desktop/ShareServer")
+            val dir = File(Application.SERVER_PATH)
 
             val subDir = File(dir, "ServerDir")
 

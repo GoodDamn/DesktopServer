@@ -6,6 +6,7 @@ import good.damn.filesharing.share_protocol.method.ssh.ShareMethodMakeDir
 import good.damn.filesharing.share_protocol.ssh.SSHAuth
 import good.damn.filesharing.utils.Log
 import good.damn.filesharing.utils.ResponseUtils
+import java.net.InetAddress
 
 class SSHService {
 
@@ -20,6 +21,7 @@ class SSHService {
     }
 
     fun makeResponse(
+        remoteAddress: InetAddress,
         auth: SSHAuth,
         request: ByteArray,
     ): ByteArray {
@@ -45,14 +47,19 @@ class SSHService {
             Log.d(TAG,"CMD_PART: ${cmdLine[i]}")
         }
 
-        return ResponseUtils.responseMessage16Id(
-            try {
-                mRuntimeService.start(
-                    cmdLine
-                )
-            } catch (e: Exception) {
+        try {
+            mRuntimeService.start(
+                remoteAddress,
+                cmdLine
+            )
+
+            return ResponseUtils.responseMessageId(
+                "Command started!"
+            )
+        } catch (e: Exception) {
+            return ResponseUtils.responseMessageId(
                 "No such command"
-            }
-        )
+            )
+        }
     }
 }

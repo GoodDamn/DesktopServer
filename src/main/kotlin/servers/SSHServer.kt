@@ -123,6 +123,7 @@ class SSHServer(
         }
 
         val response = mService.makeResponse(
+            remoteAddress,
             auth,
             mBuffer
         )

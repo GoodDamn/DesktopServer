@@ -1,56 +1,106 @@
 package good.damn.filesharing.services
 
+import good.damn.filesharing.Application
+import good.damn.filesharing.listeners.network.service.SSHServiceListener
+import good.damn.filesharing.utils.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.net.DatagramPacket
+import java.net.DatagramSocket
+import java.net.InetAddress
 import java.util.LinkedList
 
 class RuntimeService {
 
-    var delegate: Void? = null
+    var delegate: SSHServiceListener? = null
+
+    companion object {
+        private const val TAG = "RuntimeService"
+        const val PORT = 55556
+    }
 
     private val mRuntime = Runtime
         .getRuntime()
 
     fun start(
+        remoteAddress: InetAddress,
         executionLine: Array<String>
-    ): String {
-        val process = mRuntime.exec(
-            executionLine
-        )
-
-        val inp = process.inputStream
-        val err = process.errorStream
-
-        val reader = BufferedReader(
-            InputStreamReader(
-                inp
+    ) {
+        Thread{
+            val process = mRuntime.exec(
+                executionLine
             )
-        )
 
-        val readerErr = BufferedReader(
-            InputStreamReader(
-                err
+            val inp = process.inputStream
+            val err = process.errorStream
+
+            val reader = BufferedReader(
+                InputStreamReader(
+                    inp
+                )
             )
-        )
 
-        var output = ""
+            val readerErr = BufferedReader(
+                InputStreamReader(
+                    err
+                )
+            )
 
-        var line: String
-        while(true) {
-            line = reader.readLine()
-                ?: break
+            val socket = DatagramSocket()
 
-            output += "$line\n"
-        }
+            var line: String
+            while(true) {
+                line = reader.readLine()
+                    ?: break
 
-        while(true) {
-            line = readerErr.readLine()
-                ?: break
-            output += "$line\n"
-        }
+                val dataLine = line
+                    .toByteArray(
+                        Application.CHARSET_ASCII
+                    )
+                Log.d(TAG, "start: OUT: $line ${dataLine.size}")
+                socket.send(
+                    DatagramPacket(
+                        dataLine,
+                        dataLine.size,
+                        remoteAddress,
+                        PORT
+                    )
+                )
+            }
 
-        process.waitFor()
+            while(true) {
+                line = readerErr.readLine()
+                    ?: break
 
-        return output
+                Log.d(TAG, "start: OUT_ERROR: $line")
+
+                val dataLine = line
+                    .toByteArray(
+                        Application.CHARSET_ASCII
+                    )
+
+                socket.send(
+                    DatagramPacket(
+                        dataLine,
+                        dataLine.size,
+                        remoteAddress,
+                        PORT
+                    )
+                )
+            }
+
+            val d = byteArrayOf(0)
+
+            socket.send(
+                DatagramPacket(
+                    d,
+                    d.size,
+                    remoteAddress,
+                    PORT
+                )
+            )
+
+        }.start()
+
     }
 }
