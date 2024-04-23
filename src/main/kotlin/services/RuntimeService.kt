@@ -26,11 +26,11 @@ class RuntimeService {
         remoteAddress: InetAddress,
         executionLine: Array<String>
     ) {
-        Thread{
-            val process = mRuntime.exec(
-                executionLine
-            )
+        val process = mRuntime.exec(
+            executionLine
+        )
 
+        Thread {
             val inp = process.inputStream
             val err = process.errorStream
 
@@ -57,7 +57,7 @@ class RuntimeService {
                     .toByteArray(
                         Application.CHARSET_ASCII
                     )
-                Log.d(TAG, "start: OUT: $line ${dataLine.size}")
+                Log.d(TAG, "start: OUT: $line")
                 socket.send(
                     DatagramPacket(
                         dataLine,
@@ -89,7 +89,7 @@ class RuntimeService {
                 )
             }
 
-            val d = byteArrayOf(0)
+            val d = byteArrayOf(-1)
 
             socket.send(
                 DatagramPacket(
