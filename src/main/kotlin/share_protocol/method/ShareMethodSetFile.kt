@@ -40,7 +40,6 @@ class ShareMethodSetFile
 
         Log.d("ShareMethodSetFile:", "response: $fileName $argsCount")
 
-
         position += fileLen
         val dataLen = ByteUtils
             .integer(

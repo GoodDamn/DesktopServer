@@ -15,19 +15,8 @@ import java.util.concurrent.TimeUnit
 fun main() {
     val buffer = ByteArray(8096)
 
-    SSHUtils.createUser(
-        CryptoUtils.sha256Base64(
-            "github@123456"
-        )
-    )
-
-    val rsaKeys = FileUtils
-        .getUsersRsa(buffer)
-
-    val server = SSHServer(
-        8080,
-        rsaKeys,
-        buffer
+    val server = TCPServer(
+        8080
     )
 
     server.start()
@@ -39,7 +28,7 @@ class Application {
         val BUFFER_MB = ByteArray(1024 * 1024)
         val CHARSET = Charset.forName("UTF-8")
         val CHARSET_ASCII = Charset.forName("US-ASCII")
-        const val SERVER_PATH = "F:/ServerDoc"
+        const val SERVER_PATH = "/serverDir"
         var SERVER: TCPServer? = null
         var SERVER_SSL: SSLServer? = null
 

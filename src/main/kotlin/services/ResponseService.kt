@@ -15,6 +15,7 @@ class ResponseService {
         private val HTTP_METHOD_GET = ShareMethodHTTPGet()
         private val SM_LIST = ShareMethodList()
         private val SM_GET_FILE = ShareMethodGetFile()
+        private val SM_SET_FILE = ShareMethodSetFile()
         private val SM_POWER_OFF = ShareMethodPowerOff()
         private val SM_SYSTEM_INFO = ShareMethodSystemInfo()
         private val SM_SMTP = ShareMethodSMTP()
@@ -24,6 +25,7 @@ class ResponseService {
             Responsible
             > = hashMapOf(
                 SM_GET_FILE to SM_GET_FILE,
+                SM_SET_FILE to SM_SET_FILE,
                 SM_LIST to SM_LIST,
                 SM_POWER_OFF to SM_POWER_OFF,
                 SM_SYSTEM_INFO to SM_SYSTEM_INFO,
