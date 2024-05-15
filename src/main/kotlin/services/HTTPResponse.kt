@@ -2,6 +2,11 @@ package good.damn.filesharing.services
 
 import good.damn.filesharing.http.HTTPHeaders
 import good.damn.filesharing.utils.FileUtils
+import good.damn.filesharing.utils.FileUtils.Companion.getDocumentsFolder
+import good.damn.filesharing.utils.FileUtils.Companion.readBytes
+import java.io.File
+import java.io.FileInputStream
+import java.io.OutputStream
 
 class HTTPResponse {
     companion object {
@@ -11,24 +16,54 @@ class HTTPResponse {
             "email/send" to ByteArray(1)
         )
 
-        fun create(
-            path: String,
-        ): ByteArray {
+        fun set(
+            to: OutputStream,
+            path: String
+        ) {
+            val docPath = getDocumentsFolder()
+                .path
 
-            val data = FileUtils
-                .fromDoc(
-                    path.ifEmpty { "welcome" }
-                ) ?: return HTTPHeaders.error()
+            val file = File("$docPath/$path")
 
-            if (path.contains(".")) {
-                return HTTPHeaders.file(
-                    data.size,
-                    path
-                ).plus(data)
+            if (!file.exists()) {
+                HTTPHeaders.error(
+                    to
+                )
+                return
             }
 
-            return HTTPHeaders.html(data.size)
-                .plus(data)
+            val inp = FileInputStream(file)
+
+            val contentSize = file.length()
+                .toInt()
+
+            if (path.contains(".")) {
+                HTTPHeaders.file(
+                    to,
+                    contentSize,
+                    path
+                )
+
+                FileUtils.copyBytes(
+                    inp,
+                    to
+                )
+
+                inp.close()
+                return
+            }
+
+            HTTPHeaders.html(
+                to,
+                contentSize
+            )
+
+            FileUtils.copyBytes(
+                inp,
+                to
+            )
+
+            inp.close()
         }
     }
 }

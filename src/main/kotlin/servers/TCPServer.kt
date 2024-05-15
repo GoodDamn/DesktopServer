@@ -78,13 +78,16 @@ open class TCPServer(
 
             var n: Int
 
-            Thread.sleep(700)
-            while (true) {
-                Log.d(TAG, "listen: READ ${inp.available()} ${outArr.size()}")
-                if (inp.available() == 0) {
-                    break
-                }
+            var attempts = 0
 
+            while (true) {
+                if (inp.available() == 0) {
+                    if (attempts >= 1000) {
+                        break
+                    }
+                    attempts++
+                    continue
+                }
                 n = inp.read(buffer)
                 Log.d(TAG, "listen: READ $n ${outArr.size()}")
                 delegate?.onListenChunkData(
@@ -107,7 +110,13 @@ open class TCPServer(
             val data = outArr.toByteArray()
             outArr.close()
 
-            Log.d(TAG, "listen: DATA: ${data.size}")
+            Log.d(TAG, "listen: DATA_SIZE: ${data.size}")
+
+            if (data.isEmpty()) {
+                out.write(0)
+                out.close()
+                return true
+            }
 
             mResponseService
                 .manage(data,out)

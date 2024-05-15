@@ -29,7 +29,7 @@ class Application {
         val BUFFER_MB = ByteArray(1024 * 1024)
         val CHARSET = Charset.forName("UTF-8")
         val CHARSET_ASCII = Charset.forName("US-ASCII")
-        const val SERVER_PATH = "/serverDir"
+        const val SERVER_PATH = "/home/gooddamn/Desktop/serverDir"
         var SERVER: TCPServer? = null
         var SERVER_SSL: SSLServer? = null
 

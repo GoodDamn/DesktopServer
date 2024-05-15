@@ -38,6 +38,12 @@ class ShareMethodHTTPGet
             )
 
         Log.d(TAG, "response: $path")
+
+
+        HTTPResponse.set(
+            to = os,
+            path
+        )
     }
 
 }
