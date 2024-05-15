@@ -78,7 +78,7 @@ open class TCPServer(
 
             var n: Int
 
-            Thread.sleep(500)
+            Thread.sleep(700)
             while (true) {
                 Log.d(TAG, "listen: READ ${inp.available()} ${outArr.size()}")
                 if (inp.available() == 0) {
