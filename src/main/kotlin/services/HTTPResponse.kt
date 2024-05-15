@@ -1,69 +1,35 @@
 package good.damn.filesharing.services
 
 import good.damn.filesharing.http.HTTPHeaders
-import good.damn.filesharing.utils.FileUtils
-import good.damn.filesharing.utils.FileUtils.Companion.getDocumentsFolder
-import good.damn.filesharing.utils.FileUtils.Companion.readBytes
-import java.io.File
-import java.io.FileInputStream
+import good.damn.filesharing.http.HTTPPath
+import good.damn.filesharing.http.paths.HTTPPathDocument
 import java.io.OutputStream
 
 class HTTPResponse {
     companion object {
         private const val TAG = "HTTPResponseManager"
         private val PATHS = hashMapOf(
-            "email" to ByteArray(0),
-            "email/send" to ByteArray(1)
+            "email" to HTTPPathDocument(
+                "email.html",
+                "text/html"
+            ),
+            "email/send" to HTTPPathDocument(
+                "e.html",
+                "text/html"
+            )
         )
 
         fun set(
             to: OutputStream,
-            path: String
+            httpPath: HTTPPath
         ) {
-            val docPath = getDocumentsFolder()
-                .path
-
-            val file = File("$docPath/$path")
-
-            if (!file.exists()) {
+            PATHS[httpPath.path]?.execute(
+                to
+            ) ?: {
                 HTTPHeaders.error(
                     to
                 )
-                return
             }
-
-            val inp = FileInputStream(file)
-
-            val contentSize = file.length()
-                .toInt()
-
-            if (path.contains(".")) {
-                HTTPHeaders.file(
-                    to,
-                    contentSize,
-                    path
-                )
-
-                FileUtils.copyBytes(
-                    inp,
-                    to
-                )
-
-                inp.close()
-                return
-            }
-
-            HTTPHeaders.html(
-                to,
-                contentSize
-            )
-
-            FileUtils.copyBytes(
-                inp,
-                to
-            )
-
-            inp.close()
         }
     }
 }

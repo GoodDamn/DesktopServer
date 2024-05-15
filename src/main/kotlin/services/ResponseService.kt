@@ -1,6 +1,8 @@
 package good.damn.filesharing.services
 
 import good.damn.filesharing.Application
+import good.damn.filesharing.http.methods.HTTPGet
+import good.damn.filesharing.http.methods.HTTPPost
 import good.damn.filesharing.listeners.network.NetworkInputListener
 import good.damn.filesharing.share_protocol.interfaces.Responsible
 import good.damn.filesharing.share_protocol.method.*
@@ -13,7 +15,8 @@ class ResponseService {
     companion object {
         private const val TAG = "RequestManager"
         private const val SHARE_PROTOCOL_TYPE: Byte = 0
-        private val HTTP_METHOD_GET = ShareMethodHTTPGet()
+        private val HTTP_METHOD_GET = HTTPGet()
+        private val HTTP_METHOD_POST = HTTPPost()
         private val SM_LIST = ShareMethodList()
         private val SM_GET_FILE = ShareMethodGetFile()
         private val SM_SET_FILE = ShareMethodSetFile()
@@ -37,7 +40,8 @@ class ResponseService {
             ShareMethod,
             Responsible
             > = hashMapOf(
-            HTTP_METHOD_GET to HTTP_METHOD_GET
+                HTTP_METHOD_GET to HTTP_METHOD_GET,
+                HTTP_METHOD_POST to HTTP_METHOD_POST
             )
     }
 

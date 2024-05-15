@@ -1,18 +1,20 @@
-package good.damn.filesharing.share_protocol.method
+package good.damn.filesharing.http.methods
 
 import good.damn.filesharing.Application
+import good.damn.filesharing.http.HTTPPath
 import good.damn.filesharing.services.HTTPResponse
+import good.damn.filesharing.share_protocol.method.ShareMethod
 import good.damn.filesharing.utils.Log
 import java.io.File
 import java.io.OutputStream
 
-class ShareMethodHTTPGet
+class HTTPGet
 : ShareMethod(
     byteArrayOf(0x47,0x45,0x54) // GET - ASCII Codes
 ) {
 
     companion object {
-        private const val TAG = "ShareMethodHTTPGet"
+        private const val TAG = "HTTPGet"
     }
 
     override fun makeResponse(
@@ -42,7 +44,10 @@ class ShareMethodHTTPGet
 
         HTTPResponse.set(
             to = os,
-            path
+            HTTPPath(
+                path,
+                hashMapOf()
+            )
         )
     }
 

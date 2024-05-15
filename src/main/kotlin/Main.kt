@@ -14,12 +14,9 @@ import java.util.Stack
 import java.util.concurrent.TimeUnit
 
 fun main() {
-    val buffer = ByteArray(8096)
-
     val server = TCPServer(
         8080
     )
-
     server.start()
     println("Server started!")
 }

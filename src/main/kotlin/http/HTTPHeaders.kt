@@ -31,14 +31,15 @@ class HTTPHeaders {
             )
         }
 
-        fun html(
+        fun document(
             os: OutputStream,
+            mimeType: String,
             contentSize: Int
         ) {
             os.write((
               "HTTP/1.0 200 OK\r\n" +
               "Content-Length: $contentSize\r\n" +
-              "Content-Type: text/html; charset=UTF-8\r\n" +
+              "Content-Type: $mimeType; charset=UTF-8\r\n" +
               "Date: Mon, 29 Jan 2024 17:09:46 GMT\r\n\r\n"
             ).toByteArray(Application.CHARSET))
         }
