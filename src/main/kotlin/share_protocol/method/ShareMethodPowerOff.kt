@@ -2,6 +2,7 @@ package good.damn.filesharing.share_protocol.method
 
 import good.damn.filesharing.Application
 import java.io.File
+import java.io.OutputStream
 
 class ShareMethodPowerOff
 : ShareMethod(
@@ -14,15 +15,15 @@ class ShareMethodPowerOff
         private const val TAG = "ShareMethodPowerOff"
     }
 
-    override fun response(
+    override fun makeResponse(
+        os: OutputStream,
         request: ByteArray,
         argsCount: Int,
         argsPosition: Int,
         userFolder: File
-    ): ByteArray {
+    ) {
         Application.SERVER?.stop()
         Application.SERVER_SSL?.stop()
-        return ByteArray(0)
     }
 
 }

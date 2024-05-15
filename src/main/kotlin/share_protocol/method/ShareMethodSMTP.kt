@@ -3,6 +3,7 @@ package good.damn.filesharing.share_protocol.method
 import good.damn.filesharing.Application
 import good.damn.filesharing.utils.ResponseUtils
 import java.io.File
+import java.io.OutputStream
 
 class ShareMethodSMTP
 : ShareMethod(
@@ -15,12 +16,13 @@ class ShareMethodSMTP
         private const val TAG = "ShareMethodSMTP"
     }
 
-    override fun response(
+    override fun makeResponse(
+        os: OutputStream,
         request: ByteArray,
         argsCount: Int,
         argsPosition: Int,
         userFolder: File
-    ): ByteArray {
+    ) {
 
         var email = ""
         var subject = ""
@@ -65,16 +67,19 @@ class ShareMethodSMTP
             )
 
         } else {
-            return ResponseUtils.responseMessageId(
+            ResponseUtils.responseMessageId(
+                os,
                 "Not enough arguments. At least 3 (email, subject, body)"
             )
+            return
         }
 
         if (argsCount >= 4) {
             // With attachment
         }
 
-        return ResponseUtils.responseMessageId(
+        ResponseUtils.responseMessageId(
+            os,
             "Email sent"
         )
     }

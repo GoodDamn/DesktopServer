@@ -4,6 +4,7 @@ import good.damn.filesharing.share_protocol.interfaces.Responsible
 import good.damn.filesharing.utils.Log
 import good.damn.filesharing.utils.ResponseUtils
 import java.io.File
+import java.io.OutputStream
 
 open class ShareMethod(
     method: ByteArray,
@@ -19,14 +20,16 @@ open class ShareMethod(
             method.sum(method,offset, length) shl 1
             else -1
 
-    override fun response(
+    override fun makeResponse(
+        os: OutputStream,
         request: ByteArray,
         argsCount: Int,
         argsPosition: Int,
         userFolder: File
-    ):ByteArray {
+    ) {
         Log.d(TAG, "response: NO IMPLEMENTATION")
-        return ResponseUtils.responseMessageId(
+        ResponseUtils.responseMessageId(
+            os,
             "No implementation for this method"
         )
     }

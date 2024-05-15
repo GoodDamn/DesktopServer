@@ -3,6 +3,7 @@ package good.damn.filesharing.share_protocol.method
 import good.damn.filesharing.Application
 import good.damn.filesharing.utils.ResponseUtils
 import java.io.File
+import java.io.OutputStream
 
 class ShareMethodSystemInfo
 : ShareMethod(
@@ -15,13 +16,15 @@ class ShareMethodSystemInfo
         private val msg = "Nothing"
     }
 
-    override fun response(
+    override fun makeResponse(
+        os: OutputStream,
         request: ByteArray,
         argsCount: Int,
         argsPosition: Int,
         userFolder: File
-    ): ByteArray {
-        return ResponseUtils.responseMessage16Id(
+    ) {
+        ResponseUtils.responseMessage16Id(
+            os,
             msg
         )
     }

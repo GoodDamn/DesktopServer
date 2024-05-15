@@ -6,32 +6,37 @@ import good.damn.filesharing.utils.FileUtils
 import good.damn.filesharing.utils.ResponseUtils
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.OutputStream
 
 class ShareMethodList
 : ShareMethod(
     byteArrayOf(0x6C, 0x69) // li
 ) {
-    override fun response(
+    override fun makeResponse(
+        os: OutputStream,
         request: ByteArray,
         argsCount: Int,
         argsPosition: Int,
         userFolder: File
-    ): ByteArray {
+    ) {
 
         val files = FileUtils
             .getDocumentsFolder()
-            .listFiles() ?: return ResponseUtils.responseMessageId(
-                    "No files inside this server"
-                )
+            .listFiles()
 
-        val baos = ByteArrayOutputStream()
+        if (files == null) {
+            ResponseUtils.responseMessageId(
+                os,
+                "No files inside this server"
+            )
+            return
+        }
 
-        baos.write(
-            ByteUtils.integer(
+        os.write(ByteUtils.integer(
             hashCode()
         ))
 
-        baos.write(
+        os.write(
             files.size
         )
 
@@ -40,17 +45,13 @@ class ShareMethodList
                 Application.CHARSET_ASCII
             )
 
-            baos.write(
+            os.write(
                 fileName.size
             )
 
-            baos.write(
+            os.write(
                 fileName
             )
         }
-
-        val bytes = baos.toByteArray()
-        baos.close()
-        return bytes
     }
 }

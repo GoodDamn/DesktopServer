@@ -4,6 +4,7 @@ import good.damn.filesharing.Application
 import good.damn.filesharing.services.HTTPResponse
 import good.damn.filesharing.utils.Log
 import java.io.File
+import java.io.OutputStream
 
 class ShareMethodHTTPGet
 : ShareMethod(
@@ -14,12 +15,13 @@ class ShareMethodHTTPGet
         private const val TAG = "ShareMethodHTTPGet"
     }
 
-    override fun response(
+    override fun makeResponse(
+        os: OutputStream,
         request: ByteArray,
         argsCount: Int,
         argsPosition: Int,
         userFolder: File
-    ): ByteArray {
+    ) {
 
         val httpMessage = String(
             request,
@@ -36,9 +38,6 @@ class ShareMethodHTTPGet
             )
 
         Log.d(TAG, "response: $path")
-
-        return HTTPResponse
-            .create(path)
     }
 
 }

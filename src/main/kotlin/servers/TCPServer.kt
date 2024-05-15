@@ -109,17 +109,13 @@ open class TCPServer(
 
             Log.d(TAG, "listen: DATA: ${data.size}")
 
-            val response = mResponseService
-                .manage(data)
+            mResponseService
+                .manage(data,out)
 
-            if (mServer == null || response.isEmpty()) {
+            if (mServer == null) {
                 out.close()
                 return false
             }
-
-            out.write(
-                response
-            )
 
             delegate?.onDropClient(
                 clientSocket

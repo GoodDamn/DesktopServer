@@ -6,6 +6,8 @@ import good.damn.filesharing.utils.FileUtils
 import good.damn.filesharing.utils.ResponseUtils
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
+import java.io.OutputStream
 
 class ShareMethodGetFile
 : ShareMethod(
@@ -14,12 +16,13 @@ class ShareMethodGetFile
     )
 ) {
 
-    override fun response(
+    override fun makeResponse(
+        os: OutputStream,
         request: ByteArray,
         argsCount: Int,
         argsPosition: Int,
         userFolder: File
-    ): ByteArray {
+    ) {
         val pathLength = request[argsPosition]
             .toInt()
 
@@ -30,29 +33,34 @@ class ShareMethodGetFile
             Application.CHARSET_ASCII
         )
 
-        val file = FileUtils.fromDoc(
-            path
-        ) ?: return ResponseUtils.responseMessageId(
-            "$path not exists"
-        )
+        val docPath = FileUtils.getDocumentsFolder()
+            .path
 
-        val baos = ByteArrayOutputStream()
+        val file = File("$docPath/$path")
 
-        baos.write(ByteUtils.integer(
+        if (!file.exists()) {
+            ResponseUtils.responseMessageId(
+                os,
+                "$path not exists"
+            )
+            return
+        }
+
+        val inp = FileInputStream(file)
+
+        os.write(ByteUtils.integer(
             hashCode()
         ))
 
-        baos.write(ByteUtils.integer(
-            file.size
+        os.write(ByteUtils.integer(
+            file.length().toInt()
         ))
 
-        baos.write(
-            file
+        FileUtils.copyBytes(
+            inp,
+            os
         )
 
-        val result = baos.toByteArray()
-        baos.close()
-
-        return result
+        inp.close()
     }
 }

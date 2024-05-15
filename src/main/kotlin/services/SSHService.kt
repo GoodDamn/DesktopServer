@@ -47,7 +47,9 @@ class SSHService {
             Log.d(TAG,"CMD_PART: ${cmdLine[i]}")
         }
 
-        try {
+        return ByteArray(0)
+
+        /*try {
             mRuntimeService.start(
                 remoteAddress,
                 cmdLine
@@ -60,6 +62,6 @@ class SSHService {
             return ResponseUtils.responseMessageId(
                 "No such command"
             )
-        }
+        }*/
     }
 }

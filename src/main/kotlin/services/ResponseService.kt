@@ -7,6 +7,7 @@ import good.damn.filesharing.share_protocol.method.*
 import good.damn.filesharing.utils.Log
 import good.damn.filesharing.utils.ResponseUtils
 import java.io.File
+import java.io.OutputStream
 
 class ResponseService {
     companion object {
@@ -43,12 +44,15 @@ class ResponseService {
     var delegate: NetworkInputListener? = null
 
     fun manage(
-        data: ByteArray
-    ): ByteArray {
+        data: ByteArray,
+        os: OutputStream
+    ) {
         if (data.size < 2) {
-            return ResponseUtils.responseMessageId(
+            ResponseUtils.responseMessageId(
+                os,
                 "Null data"
             )
+            return
         }
 
         val protocolType = data[0]
@@ -75,23 +79,30 @@ class ResponseService {
         }
 
         Log.d(TAG, "manage: offset: $offset; length: $methodLen;")
-        
-        return methods[ShareMethod(
+
+        val resp = methods[ShareMethod(
             data,
             offset = offset,
             length = methodLen
-        )]?.response(
+        )]?.makeResponse(
+            os,
             data,
             argsCount,
             argsPosition,
             NULL_FILE
-        ) ?: ResponseUtils.responseMessageId(
-            "No such method ${String(
-                data,
-                offset,
-                methodLen,
-                Application.CHARSET_ASCII
-            )}"
         )
+
+        if (resp == null) {
+            ResponseUtils.responseMessageId(
+                os,
+                "No such method ${String(
+                    data,
+                    offset,
+                    methodLen,
+                    Application.CHARSET_ASCII
+                )}"
+            )
+        }
+
     }
 }

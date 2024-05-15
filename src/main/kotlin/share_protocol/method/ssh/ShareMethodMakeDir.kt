@@ -4,6 +4,7 @@ import good.damn.filesharing.Application
 import good.damn.filesharing.share_protocol.method.ShareMethod
 import good.damn.filesharing.utils.ResponseUtils
 import java.io.File
+import java.io.OutputStream
 
 class ShareMethodMakeDir
 : ShareMethod(
@@ -15,14 +16,16 @@ class ShareMethodMakeDir
         private const val TAG = "ShareMethodMakeDir"
     }
 
-    override fun response(
+    override fun makeResponse(
+        os: OutputStream,
         request: ByteArray,
         argsCount: Int,
         argsPosition: Int,
         userFolder: File
-    ): ByteArray {
+    ) {
         if (argsCount <= 0) {
             return ResponseUtils.responseMessageId(
+                os,
                 "No folder name for creating directory"
             )
         }
@@ -40,20 +43,27 @@ class ShareMethodMakeDir
         val path = File("$userFolder/$folderPath")
 
         if (path.exists()) {
-            return ResponseUtils.responseMessageId(
+            ResponseUtils.responseMessageId(
+                os,
                 "$folderPath already exists"
             )
+            return
         }
 
         if (path.mkdirs()) {
-            return ResponseUtils.responseMessageId(
-                "Folder at $folderPath created")
+            ResponseUtils.responseMessageId(
+                os,
+                "Folder at $folderPath created"
+            )
+            return
         }
 
-        return ResponseUtils.responseMessageId(
+        ResponseUtils.responseMessageId(
+            os,
             "Couldn't create a dir $folderPath"
         )
 
+        return
     }
 
 }

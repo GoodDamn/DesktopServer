@@ -1,11 +1,7 @@
 package good.damn.filesharing.utils
 
 import good.damn.filesharing.Application
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 
 class FileUtils {
 
@@ -34,6 +30,29 @@ class FileUtils {
         }
 
         fun fromDoc(
+            fileName: String,
+            os: OutputStream
+        ): Boolean {
+            val docPath = getDocumentsFolder()
+                .path
+
+            val file = File("$docPath/$fileName")
+
+            if (!file.exists()) {
+                return false
+            }
+
+            val inp = FileInputStream(file)
+            copyBytes(
+                inp,
+                os
+            )
+            inp.close()
+
+            return true
+        }
+
+        fun fromDoc(
             fileName: String
         ): ByteArray? {
             val docPath = getDocumentsFolder()
@@ -46,10 +65,7 @@ class FileUtils {
             }
 
             val inps = FileInputStream(file)
-
-            val b = NetworkUtils
-                .readBytes(inps)
-
+            val b = readBytes(inps)
             inps.close()
 
             return b
@@ -183,6 +199,45 @@ class FileUtils {
             user: String
         ): File {
             return File("${getDocumentsFolder()}/ssh/${user}")
+        }
+
+        fun copyBytes(
+            from: InputStream,
+            to: OutputStream,
+            buffer: ByteArray = Application.BUFFER_MB
+        ) {
+            var n: Int
+
+            while (true) {
+                n = from.read(buffer)
+                if (n == -1) {
+                    break
+                }
+                to.write(buffer,0,n)
+            }
+        }
+
+        fun readBytes(
+            inp: InputStream,
+            buffer: ByteArray = Application.BUFFER_MB
+        ): ByteArray {
+
+            val outArr = ByteArrayOutputStream()
+
+            var n: Int
+
+            while (true) {
+                n = inp.read(buffer)
+                if (n == -1) {
+                    break
+                }
+                outArr.write(buffer,0,n)
+            }
+
+            val data = outArr.toByteArray()
+            outArr.close()
+
+            return data
         }
     }
 

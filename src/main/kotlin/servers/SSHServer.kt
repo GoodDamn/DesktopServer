@@ -81,12 +81,12 @@ class SSHServer(
                 "Invalid credentials"
             )
 
-            responseToUser(
+            /*responseToUser(
                 remoteAddress,
                 ResponseUtils.responseMessageId(
                     "Invalid credentials"
                 )
-            )
+            )*/
 
             return true
         }
@@ -100,12 +100,12 @@ class SSHServer(
                     "Invalid RSA KEY"
                 )
 
-                responseToUser(
+                /*responseToUser(
                     remoteAddress,
                     ResponseUtils.responseMessageId(
                         "Invalid RSA Key"
                     )
-                )
+                )*/
                 return true
             }
 
