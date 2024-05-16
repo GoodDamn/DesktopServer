@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ShareServer.main:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ShareServer_main_jar</output-path>
+    <root id="archive" name="ShareServer.main.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="ShareServer.main" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.mail/javax.mail-api/1.6.2/17a8151bab44f9c94f34c10db70d95ba3c830eda/javax.mail-api-1.6.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.activation/activation/1.1/e6cb541461c2834bdea3eb920f1884d1eb508b50/activation-1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.9.23/dbaadea1f5e68f790d242a91a38355a83ec38747/kotlin-stdlib-1.9.23.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sun.mail/javax.mail/1.6.2/935151eb71beff17a2ffac15dd80184a99a0514f/javax.mail-1.6.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.10.1/b3add478d4382b78ea20b1671390a858002feb6c/gson-2.10.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
