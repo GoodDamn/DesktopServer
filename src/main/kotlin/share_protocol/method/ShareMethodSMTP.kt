@@ -10,7 +10,7 @@ class ShareMethodSMTP
     "mail".toByteArray(
         Application.CHARSET_ASCII
     )
-){
+) {
 
     companion object {
         private const val TAG = "ShareMethodSMTP"
