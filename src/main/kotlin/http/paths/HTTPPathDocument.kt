@@ -1,6 +1,7 @@
 package good.damn.filesharing.http.paths
 
 import good.damn.filesharing.http.HTTPHeaders
+import good.damn.filesharing.http.HTTPPath
 import good.damn.filesharing.utils.FileUtils
 import java.io.File
 import java.io.FileInputStream
@@ -21,7 +22,8 @@ class HTTPPathDocument(
     )
 
     override fun execute(
-        to: OutputStream
+        to: OutputStream,
+        httpPath: HTTPPath
     ) {
         if (!mFile.exists()) {
             HTTPHeaders.error(

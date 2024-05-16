@@ -46,7 +46,7 @@ class HTTPGet
             to = os,
             HTTPPath(
                 path,
-                hashMapOf()
+                ""
             )
         )
     }

@@ -1,5 +1,6 @@
 package good.damn.filesharing.http.methods
 
+import com.google.gson.Gson
 import good.damn.filesharing.Application
 import good.damn.filesharing.http.HTTPPath
 import good.damn.filesharing.services.HTTPResponse
@@ -34,21 +35,26 @@ class HTTPPost
 
         val path = httpMessage
             .substring(
-                5,
+                6,
                 httpMessage.indexOf(
                     " ",
-                    5
+                    6
                 )
             )
 
-        Log.d(TAG, "response: $httpMessage")
+        val jsonIndex = httpMessage
+            .indexOf("\r\n\r\n")
 
+        val json = httpMessage
+            .substring(jsonIndex+4)
+
+        Log.d(TAG, "response: $httpMessage")
 
         HTTPResponse.set(
             to = os,
             HTTPPath(
                 path,
-                hashMapOf()
+                json
             )
         )
     }

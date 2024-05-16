@@ -2,6 +2,7 @@ package good.damn.filesharing.services
 
 import good.damn.filesharing.http.HTTPHeaders
 import good.damn.filesharing.http.HTTPPath
+import good.damn.filesharing.http.paths.HTTPPathActionEmail
 import good.damn.filesharing.http.paths.HTTPPathDocument
 import java.io.OutputStream
 
@@ -13,10 +14,7 @@ class HTTPResponse {
                 "email.html",
                 "text/html"
             ),
-            "email/send" to HTTPPathDocument(
-                "e.html",
-                "text/html"
-            )
+            "email/send" to HTTPPathActionEmail()
         )
 
         fun set(
@@ -24,7 +22,8 @@ class HTTPResponse {
             httpPath: HTTPPath
         ) {
             PATHS[httpPath.path]?.execute(
-                to
+                to,
+                httpPath
             ) ?: {
                 HTTPHeaders.error(
                     to
