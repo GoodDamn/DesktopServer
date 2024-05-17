@@ -1,5 +1,6 @@
 package good.damn.filesharing
 
+import good.damn.filesharing.configs.FTPConfig
 import good.damn.filesharing.servers.TCPServer
 import java.io.File
 
@@ -17,9 +18,8 @@ fun main(
         return
     }
 
-    val ftpConf = File(
-        args[0]
-    )
+    val ftpConf = FTPConfig
+        .createFromFile(File(args[0]))
 
     val smtpConf = File(
         args[1]

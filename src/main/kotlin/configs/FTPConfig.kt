@@ -6,19 +6,36 @@ import java.io.FileInputStream
 import java.io.InputStreamReader
 
 class FTPConfig(
-    serverDir: File?
+    serverDir: File?,
+    error: String? = null
 ) {
     companion object {
         fun createFromFile(
             file: File
-        ): FTPConfig? {
+        ): FTPConfig {
 
             val config = BaseConfig
                 .createFromFile(file)
-                ?: return null
+
+            if (config.error != null) {
+                return FTPConfig(
+                    null,
+                    "FTP: ${config.error}"
+                )
+            }
+
+            if (config.map == null) {
+                return FTPConfig(
+                    null,
+                    "FTP: Map is null"
+                )
+            }
 
             val serverPath = config.map["server_dir"]
-                ?: return null
+                ?: return FTPConfig(
+                    null,
+                    "FTP: define 'server_dir' property with specific server path"
+                )
 
             val f = File(serverPath)
             if (!f.exists() && f.mkdirs()) {

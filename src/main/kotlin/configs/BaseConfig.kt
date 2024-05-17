@@ -6,14 +6,18 @@ import java.io.FileInputStream
 import java.io.InputStreamReader
 
 class BaseConfig(
-    val map: HashMap<String,String>
+    val map: HashMap<String,String>?,
+    val error: String?,
 ) {
     companion object {
         fun createFromFile(
             file: File
-        ): BaseConfig? {
+        ): BaseConfig {
             if (!file.exists()) {
-                return null
+                return BaseConfig(
+                    null,
+                    "Config not exists: $file"
+                )
             }
 
             val inp = BufferedReader(
@@ -50,7 +54,8 @@ class BaseConfig(
             }
 
             return BaseConfig(
-                map
+                map,
+                null
             )
         }
     }
