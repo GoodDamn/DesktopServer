@@ -43,7 +43,7 @@ class BaseConfig(
                 )
 
                 val value = s.substring(
-                    eqin
+                    eqin+1
                 )
 
                 map[key] = value
