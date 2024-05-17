@@ -1,6 +1,7 @@
 package good.damn.filesharing
 
 import good.damn.filesharing.configs.FTPConfig
+import good.damn.filesharing.configs.SMTPConfig
 import good.damn.filesharing.servers.SSLServer
 import good.damn.filesharing.servers.TCPServer
 import java.io.File
@@ -13,6 +14,9 @@ class Application {
         val CHARSET_ASCII = Charset.forName("US-ASCII")
         var SERVER: TCPServer? = null
         var SERVER_SSL: SSLServer? = null
+
+        lateinit var CONFIG_SMTP: SMTPConfig
+        lateinit var CONFIG_FTP: FTPConfig
 
         /*fun createSSLContext(
             resources: Resources

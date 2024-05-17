@@ -11,7 +11,7 @@ class SMTPConfig(
     companion object {
         fun createFromFile(
             file: File
-        ): SMTPConfig? {
+        ): SMTPConfig {
 
             val config = BaseConfig
                 .createFromFile(file)

@@ -20,10 +20,10 @@ fun main(
     }
 
     try {
-        val ftpConf = FTPConfig
+        Application.CONFIG_FTP = FTPConfig
             .createFromFile(File(args[0]))
 
-        val smtpConf = SMTPConfig
+        Application.CONFIG_SMTP = SMTPConfig
             .createFromFile(File(args[1]))
 
         val server = TCPServer(

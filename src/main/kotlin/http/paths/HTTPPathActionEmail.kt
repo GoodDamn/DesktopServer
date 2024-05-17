@@ -1,6 +1,7 @@
 package good.damn.filesharing.http.paths
 
 import com.google.gson.Gson
+import good.damn.filesharing.Application
 import good.damn.filesharing.http.HTTPHeaders
 import good.damn.filesharing.http.HTTPPath
 import good.damn.filesharing.http.paths.json_models.HTTPModelEmail
@@ -15,7 +16,9 @@ class HTTPPathActionEmail
         private const val TAG = "HTTPPathActionEmail"
     }
 
-    private val mSmtpService = SMTPService()
+    private val mSmtpService = SMTPService(
+        Application.CONFIG_SMTP
+    )
     private val mGson = Gson()
 
     override fun execute(

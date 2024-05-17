@@ -6,7 +6,7 @@ import java.io.FileInputStream
 import java.io.InputStreamReader
 
 class FTPConfig(
-    serverDir: File
+    val serverDir: File
 ) {
     companion object {
         fun createFromFile(

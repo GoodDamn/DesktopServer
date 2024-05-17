@@ -1,6 +1,7 @@
 package good.damn.filesharing.servers
 
 import good.damn.filesharing.Application
+import good.damn.filesharing.configs.FTPConfig
 import good.damn.filesharing.listeners.network.server.ServerListener
 import good.damn.filesharing.services.ResponseService
 import good.damn.filesharing.utils.Log

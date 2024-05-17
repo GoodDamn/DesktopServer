@@ -1,5 +1,6 @@
 package good.damn.filesharing.services.smtp
 
+import good.damn.filesharing.configs.SMTPConfig
 import good.damn.filesharing.utils.Log
 import java.util.*
 import javax.mail.Message
@@ -8,27 +9,20 @@ import javax.mail.Transport
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-class SMTPService {
+class SMTPService(
+    private val mConfig: SMTPConfig
+) {
 
     companion object {
         private const val TAG = "SMTPService"
 
-        private const val EMAIL_COMMON = "vuzion@yandex.ru"
-        private const val PASSWORD = "zaqwsxEdC1"
+        //private const val EMAIL_COMMON = "vuzion@yandex.ru"
+        //private const val PASSWORD = "zaqwsxEdC1"
     }
 
-    private val mProperties = Properties()
     private val mFromInetAddress = InternetAddress(
-        EMAIL_COMMON
+        mConfig.auth.email
     )
-
-    init {
-        mProperties["mail.smtp.host"] = "smtp.yandex.ru";
-        mProperties["mail.smtp.socketFactory.port"] = "465";
-        mProperties["mail.smtp.socketFactory.class"] = "javax.net.ssl.SSLSocketFactory";
-        mProperties["mail.smtp.auth"] = "true";
-        mProperties["mail.smtp.port"] = "465";
-    }
 
     fun send(
         to: String,
@@ -37,11 +31,8 @@ class SMTPService {
     ) {
         Thread {
             val session = Session.getDefaultInstance(
-                mProperties,
-                SMTPAuth(
-                    EMAIL_COMMON,
-                    PASSWORD
-                )
+                mConfig.properties,
+                mConfig.auth
             )
 
             try {

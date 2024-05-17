@@ -113,17 +113,15 @@ class FileUtils {
         }
 
         fun getDocumentsFolder(): File {
-            val dir = File(Application.SERVER_PATH)
-
-            val subDir = File(dir, "ServerDir")
+            val dir = Application.CONFIG_FTP.serverDir
 
             Log.d(TAG, "getDocumentsFolder: $dir")
 
-            if (!subDir.exists() && subDir.mkdir()) {
-                Log.d(TAG, "writeToDoc: dir $subDir is created")
+            if (!dir.exists() && dir.mkdir()) {
+                Log.d(TAG, "writeToDoc: dir $dir is created")
             }
 
-            return subDir
+            return dir
         }
 
         fun hasUserRsa(
