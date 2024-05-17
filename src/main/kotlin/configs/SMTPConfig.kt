@@ -25,7 +25,7 @@ class SMTPConfig(
             val hostMail = config.map["mail.smtp.host"]
                 ?: throw IllegalStateException("SMTP: define \"mail.smtp.host\" of your smtp provider")
 
-            val hostPort = config.map["mail.smtp.socketFactory.port"]
+            val hostPort = config.map["mail.smtp.port"]
                 ?: throw IllegalStateException("SMTP: define \"mail.smtp.port\" of your smtp provider port")
 
             val auth = SMTPAuth(
