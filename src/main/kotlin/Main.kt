@@ -1,6 +1,7 @@
 package good.damn.filesharing
 
 import good.damn.filesharing.configs.FTPConfig
+import good.damn.filesharing.configs.SMTPConfig
 import good.damn.filesharing.servers.TCPServer
 import java.io.File
 
@@ -18,17 +19,20 @@ fun main(
         return
     }
 
-    val ftpConf = FTPConfig
-        .createFromFile(File(args[0]))
+    try {
+        val ftpConf = FTPConfig
+            .createFromFile(File(args[0]))
 
-    val smtpConf = File(
-        args[1]
-    )
+        val smtpConf = SMTPConfig
+            .createFromFile(File(args[1]))
 
-    val server = TCPServer(
-        8080
-    )
+        val server = TCPServer(
+            8080
+        )
 
-    server.start()
-    println("Server started!")
+        server.start()
+        println("Server started!")
+    } catch (e: Exception) {
+        println("Error: ${e.message}")
+    }
 }

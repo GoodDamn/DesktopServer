@@ -1,7 +1,9 @@
 package good.damn.filesharing
 
+import good.damn.filesharing.configs.FTPConfig
 import good.damn.filesharing.servers.SSLServer
 import good.damn.filesharing.servers.TCPServer
+import java.io.File
 import java.nio.charset.Charset
 
 class Application {
@@ -9,7 +11,6 @@ class Application {
         val BUFFER_MB = ByteArray(1024 * 1024)
         val CHARSET = Charset.forName("UTF-8")
         val CHARSET_ASCII = Charset.forName("US-ASCII")
-        const val SERVER_PATH = "/home/gooddamn/Desktop/serverDir"
         var SERVER: TCPServer? = null
         var SERVER_SSL: SSLServer? = null
 

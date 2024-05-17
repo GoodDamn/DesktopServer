@@ -6,7 +6,7 @@ import java.util.Properties
 
 class SMTPConfig(
     val auth: SMTPAuth,
-    val properties: Properties
+    val properties: Properties,
 ) {
     companion object {
         fun createFromFile(
@@ -14,15 +14,19 @@ class SMTPConfig(
         ): SMTPConfig? {
 
             val config = BaseConfig
-                .createFromFile(file) ?: return null
+                .createFromFile(file)
 
-            val email = config.map["email"] ?: return null
-            val password = config.map["password"] ?: return null
+            val email = config.map["email"]
+                ?: throw IllegalStateException("SMTP: define 'email' for your sender")
 
-            val hostMail = config.map["mail.smtp.host"] ?: return null
-            val hostSmtp = config.map["mail.smtp.socketFactory.port"] ?: return null
-            val smtpAuth = config.map["mail.smtp.auth"] ?: return null
-            val smtpPort = config.map["mail.smtp.port"] ?: return null
+            val password = config.map["password"]
+                ?: throw IllegalStateException("SMTP: define 'password' for your email auth")
+
+            val hostMail = config.map["mail.smtp.host"]
+                ?: throw IllegalStateException("SMTP: define \"mail.smtp.host\" of your smtp provider")
+
+            val hostPort = config.map["mail.smtp.socketFactory.port"]
+                ?: throw IllegalStateException("SMTP: define \"mail.smtp.port\" of your smtp provider port")
 
             val auth = SMTPAuth(
                 email,
@@ -31,9 +35,9 @@ class SMTPConfig(
 
             val props = Properties()
             props["mail.smtp.host"] = hostMail
-            props["mail.smtp.socketFactory.port"] = hostSmtp
-            props["mail.smtp.auth"] = smtpAuth
-            props["mail.smtp.port"] = smtpPort
+            props["mail.smtp.socketFactory.port"] = hostPort
+            props["mail.smtp.auth"] = "true"
+            props["mail.smtp.port"] = hostPort
             props["mail.smtp.socketFactory.class"] = "javax.net.ssl.SSLSocketFactory";
 
             return SMTPConfig(
