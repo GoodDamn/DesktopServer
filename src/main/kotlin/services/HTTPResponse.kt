@@ -1,5 +1,6 @@
 package good.damn.filesharing.services
 
+import good.damn.filesharing.Application
 import good.damn.filesharing.http.HTTPHeaders
 import good.damn.filesharing.http.HTTPPath
 import good.damn.filesharing.http.paths.HTTPPathActionEmail
@@ -37,24 +38,51 @@ class HTTPResponse {
                 .getDocumentsFolder()
 
             val staticFile = File("$serverDir/${httpPath.path}")
-            if (!(staticFile.exists() && staticFile.isFile)) {
+            if (!staticFile.exists()) {
                 HTTPHeaders.error(
                     to
                 )
                 return
             }
 
-            val p = httpPath.path
+            if (staticFile.isDirectory) {
 
-            val fileName = p
-                .substring(
-                    p.lastIndexOf("/") + 1
+                var result = "<!DOCTYPE html>" +
+                        "<html>"
+
+                val files = staticFile
+                    .listFiles()
+
+                if (files != null) {
+                    for (file in files) {
+                        result += "<a href=\"${httpPath.path}/${file.name}\">${file.name}</a><br>"
+                    }
+                }
+
+                result += "</html>"
+
+                val data = result.toByteArray(
+                    Application.CHARSET
                 )
+
+                HTTPHeaders.document(
+                    to,
+                    "text/html",
+                    data.size
+                )
+
+                FileUtils.copyBytes(
+                    data,
+                    to
+                )
+
+                return
+            }
 
             HTTPHeaders.file(
                 to,
                 staticFile.length().toInt(),
-                fileName
+                staticFile.name
             )
 
             val inp = FileInputStream(
@@ -65,6 +93,8 @@ class HTTPResponse {
                 inp,
                 to
             )
+
+            inp.close()
         }
     }
 }

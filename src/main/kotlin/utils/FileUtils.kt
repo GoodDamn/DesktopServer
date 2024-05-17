@@ -200,6 +200,20 @@ class FileUtils {
         }
 
         fun copyBytes(
+            data: ByteArray,
+            to: OutputStream,
+            buffer: ByteArray = Application.BUFFER_MB
+        ) {
+            val inp = ByteArrayInputStream(data)
+            copyBytes(
+                inp,
+                to,
+                buffer
+            )
+            inp.close()
+        }
+
+        fun copyBytes(
             from: InputStream,
             to: OutputStream,
             buffer: ByteArray = Application.BUFFER_MB

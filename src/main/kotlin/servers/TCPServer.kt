@@ -134,7 +134,7 @@ open class TCPServer(
             out.close()
         } catch (e: SocketException) {
             Log.d(TAG, "listen: EXCEPTION:  ${e.message}")
-            return false
+            return true
         } catch (e: SocketTimeoutException) {
             Log.d(TAG, "listen: TIMED_OUT: ${e.message}")
         }
