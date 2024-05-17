@@ -33,6 +33,10 @@ class BaseConfig(
                     break
                 }
 
+                if (s.isBlank()) {
+                    continue
+                }
+
                 val eqin = s.indexOf("=")
                 if (eqin == -1) {
                     continue
