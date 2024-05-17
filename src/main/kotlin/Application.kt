@@ -2,6 +2,9 @@ package good.damn.filesharing
 
 import good.damn.filesharing.configs.FTPConfig
 import good.damn.filesharing.configs.SMTPConfig
+import good.damn.filesharing.http.paths.HTTPPathAction
+import good.damn.filesharing.http.paths.HTTPPathActionEmail
+import good.damn.filesharing.http.paths.HTTPPathDocument
 import good.damn.filesharing.servers.SSLServer
 import good.damn.filesharing.servers.TCPServer
 import java.io.File
@@ -12,9 +15,12 @@ class Application {
         val BUFFER_MB = ByteArray(1024 * 1024)
         val CHARSET = Charset.forName("UTF-8")
         val CHARSET_ASCII = Charset.forName("US-ASCII")
+
         var SERVER: TCPServer? = null
         var SERVER_SSL: SSLServer? = null
 
+
+        lateinit var PATHS: HashMap<String, HTTPPathAction>
         lateinit var CONFIG_SMTP: SMTPConfig
         lateinit var CONFIG_FTP: FTPConfig
 
